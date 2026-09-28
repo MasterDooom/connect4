@@ -48,11 +48,12 @@ describe('Connect 4 rules', () => {
 
   it('detects a down-right diagonal win', () => {
     const board = boardFromMoves([
-      [0, HUMAN], [1, AI], [1, HUMAN], [2, AI],
-      [2, HUMAN], [3, AI], [2, HUMAN], [3, AI],
-      [3, HUMAN], [4, AI], [3, HUMAN],
+      [0, HUMAN],
+      [1, AI], [1, HUMAN],
+      [2, AI], [2, AI], [2, HUMAN],
+      [3, AI], [3, AI], [3, AI], [3, HUMAN],
     ]);
-    expect(getWinningCells(board, 2, 2, HUMAN)).toHaveLength(4);
+    expect(getWinningCells(board, 2, 3, HUMAN)).toHaveLength(4);
   });
 
   it('does not treat three pieces as a win', () => {
