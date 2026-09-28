@@ -69,26 +69,28 @@ export function useConnect4(): Connect4State {
     window.setTimeout(() => {
       if (generation.current !== currentGeneration) return;
 
-      const search = findBestMove(result.board, difficulty);
-      if (generation.current !== currentGeneration) return;
+      try {
+        const search = findBestMove(result.board, difficulty);
+        if (generation.current !== currentGeneration) return;
 
-      const aiMove = dropPiece(result.board, search.column, AI);
-      if (!aiMove) {
-        setAiThinking(false);
-        return;
+        const aiMove = dropPiece(result.board, search.column, AI);
+        if (!aiMove) return;
+
+        const aiTerminal = getTerminalState(aiMove.board, {
+          row: aiMove.row,
+          column: aiMove.column,
+          player: AI,
+        });
+
+        setBoard(aiMove.board);
+        setStatus(aiTerminal.status);
+        setWinningCells(aiTerminal.winningCells);
+        setAiNodes(search.nodes);
+      } finally {
+        if (generation.current === currentGeneration) {
+          setAiThinking(false);
+        }
       }
-
-      const aiTerminal = getTerminalState(aiMove.board, {
-        row: aiMove.row,
-        column: aiMove.column,
-        player: AI,
-      });
-
-      setBoard(aiMove.board);
-      setStatus(aiTerminal.status);
-      setWinningCells(aiTerminal.winningCells);
-      setAiNodes(search.nodes);
-      setAiThinking(false);
     }, 20);
   }, [aiThinking, board, difficulty, status]);
 
