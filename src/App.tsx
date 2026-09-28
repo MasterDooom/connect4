@@ -16,7 +16,7 @@ function App() {
           <div>
             <p className="eyebrow">GAME-GD2 · TURN-BASED STRATEGY</p>
             <h1 id="game-title">Connect 4</h1>
-            <p className="subtitle">Human vs AI</p>
+            <p className="subtitle">Human vs AI <span aria-hidden="true">·</span> first to four</p>
           </div>
           <NewGameButton onClick={game.newGame} />
         </header>
@@ -43,26 +43,42 @@ function App() {
           <span><i className="legend-piece legend-ai" aria-hidden="true" />AI</span>
         </div>
 
-        <div className="column-controls" aria-label="Choose a column">
-          {Array.from({ length: 7 }, (_, column) => (
-            <button
-              key={column}
-              type="button"
-              className="column-button"
-              disabled={gameLocked || !legalMoves.has(column)}
-              onClick={() => game.playColumn(column)}
-              aria-label={legalMoves.has(column)
-                ? 'Drop your piece in column ' + (column + 1)
-                : 'Column ' + (column + 1) + ' is full'}
-            >
-              {column + 1}
-            </button>
-          ))}
+        <div className="move-picker">
+          <div className="move-picker-heading">
+            <div>
+              <p className="move-picker-eyebrow">YOUR MOVE</p>
+              <p className="move-picker-copy">Click a column number to drop your disc</p>
+            </div>
+            <span className="key-hint" aria-hidden="true">1–7</span>
+          </div>
+
+          <div className="column-controls" aria-label="Choose a column">
+            {Array.from({ length: 7 }, (_, column) => (
+              <button
+                key={column}
+                type="button"
+                className="column-button"
+                disabled={gameLocked || !legalMoves.has(column)}
+                onClick={() => game.playColumn(column)}
+                onMouseEnter={() => !gameLocked && legalMoves.has(column) && game.setPreviewColumn(column)}
+                onMouseLeave={() => game.setPreviewColumn(null)}
+                onFocus={() => !gameLocked && legalMoves.has(column) && game.setPreviewColumn(column)}
+                onBlur={() => game.setPreviewColumn(null)}
+                aria-label={legalMoves.has(column)
+                  ? 'Drop your piece in column ' + (column + 1)
+                  : 'Column ' + (column + 1) + ' is full'}
+              >
+                <span className="column-number">{column + 1}</span>
+                <span className="column-drop" aria-hidden="true">↓</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         <Board
           board={game.board}
           winningCells={game.winningCells}
+          lastMove={game.lastMove}
           disabled={gameLocked}
           previewColumn={game.previewColumn}
           onColumnHover={game.setPreviewColumn}
@@ -73,7 +89,7 @@ function App() {
             {game.aiThinking
               ? 'The AI is calculating its move.'
               : game.status === 'playing'
-                ? 'Choose a column to drop your piece.'
+                ? 'Use the numbered controls above the board. Hovering previews where your disc will land.'
                 : 'Start a new game to play again.'}
           </p>
           {game.aiNodes !== null && (
