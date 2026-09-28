@@ -13,6 +13,15 @@ h1 { margin:0; font-size:clamp(2.7rem,9vw,4.8rem); line-height:.9; letter-spacin
 .subtitle { margin:10px 0 0; color:#8fa7a0; }
 .new-game-button { flex:0 0 auto; border:1px solid #1c3934; border-radius:12px; padding:11px 16px; color:#f1f7f5; background:#102522; cursor:pointer; }
 .new-game-button:hover { border-color:#19c37d; }
+.controls-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px; }
+.difficulty { display:flex; align-items:center; gap:8px; color:#8fa7a0; font-size:.82rem; }
+.difficulty select { border:1px solid #1c3934; border-radius:9px; padding:7px 9px; color:#f1f7f5; background:#102522; }
+.column-controls { display:grid; grid-template-columns:repeat(7,1fr); gap:clamp(5px,1.2vw,9px); margin-bottom:7px; }
+.column-button { border:1px solid transparent; border-radius:8px; padding:5px 0; color:#8fa7a0; background:transparent; cursor:pointer; }
+.column-button:hover:not(:disabled) { color:#19c37d; border-color:#1c3934; background:#0b1c1a; }
+.column-button:disabled { opacity:.25; cursor:default; }
+.footer-info { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.search-info { margin:14px 2px 0; color:#5f7770; font-family:'DM Mono',monospace; font-size:.7rem; }
 .status { display:flex; align-items:center; gap:9px; min-height:26px; margin-bottom:14px; font-weight:600; }
 .status-dot { width:9px; height:9px; border-radius:50%; background:#19c37d; }
 .status-dot.thinking { animation:pulse .9s ease-in-out infinite alternate; }
