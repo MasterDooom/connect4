@@ -7,6 +7,7 @@ import { useConnect4 } from './hooks/useConnect4';
 function App() {
   const game = useConnect4();
   const legalMoves = new Set(getLegalMoves(game.board));
+  const gameLocked = game.status !== 'playing' || game.aiThinking;
 
   return (
     <main className="app-shell">
@@ -23,11 +24,12 @@ function App() {
         <div className="controls-row">
           <GameStatus status={game.status} aiThinking={game.aiThinking} />
           <label className="difficulty">
-            Difficulty
+            <span>Difficulty</span>
             <select
               value={game.difficulty}
               onChange={(event) => game.setDifficulty(Number(event.target.value))}
               disabled={game.aiThinking}
+              aria-label="AI difficulty"
             >
               <option value={4}>Easy · depth 4</option>
               <option value={6}>Medium · depth 6</option>
@@ -36,15 +38,17 @@ function App() {
           </label>
         </div>
 
-        <div className="column-controls" aria-label="Playable columns">
+        <div className="column-controls" aria-label="Choose a column">
           {Array.from({ length: 7 }, (_, column) => (
             <button
               key={column}
               type="button"
               className="column-button"
-              disabled={game.status !== 'playing' || game.aiThinking || !legalMoves.has(column)}
+              disabled={gameLocked || !legalMoves.has(column)}
               onClick={() => game.playColumn(column)}
-              aria-label={`Drop piece in column ${column + 1}`}
+              aria-label={legalMoves.has(column)
+                ? 'Drop your piece in column ' + (column + 1)
+                : 'Column ' + (column + 1) + ' is full'}
             >
               {column + 1}
             </button>
@@ -54,15 +58,25 @@ function App() {
         <Board
           board={game.board}
           winningCells={game.winningCells}
-          disabled={game.status !== 'playing' || game.aiThinking}
+          disabled={gameLocked}
           previewColumn={game.previewColumn}
           onColumnClick={game.playColumn}
           onColumnHover={game.setPreviewColumn}
         />
 
         <div className="footer-info">
-          <p className="hint">Choose a column to drop your piece.</p>
-          {game.aiNodes !== null && <p className="search-info">{game.aiNodes.toLocaleString()} positions searched</p>}
+          <p className="hint">
+            {game.aiThinking
+              ? 'The AI is calculating its move.'
+              : game.status === 'playing'
+                ? 'Choose a column to drop your piece.'
+                : 'Start a new game to play again.'}
+          </p>
+          {game.aiNodes !== null && (
+            <p className="search-info" aria-label={game.aiNodes.toLocaleString() + ' positions searched by the AI'}>
+              {game.aiNodes.toLocaleString()} positions searched
+            </p>
+          )}
         </div>
       </section>
     </main>
