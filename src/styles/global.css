@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  color: #f1f7f5;
+  background: #071413;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(25, 195, 125, 0.08), transparent 34rem),
+    #071413;
+}
+
+button, input, select { font: inherit; }
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.app-card {
+  width: min(680px, 100%);
+  padding: 48px;
+  border: 1px solid #1c3934;
+  border-radius: 24px;
+  background: #0b1c1a;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #22d3ee;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.subtitle {
+  margin: 16px 0 32px;
+  color: #8fa7a0;
+  font-size: 1.15rem;
+}
+
+.foundation-state {
+  padding: 16px 18px;
+  border: 1px solid #1c3934;
+  border-radius: 14px;
+  color: #8fa7a0;
+  background: #102522;
+}
+
+@media (max-width: 560px) {
+  .app-shell { padding: 16px; }
+  .app-card { padding: 28px 22px; border-radius: 18px; }
+}
