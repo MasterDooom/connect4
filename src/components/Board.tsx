@@ -1,10 +1,11 @@
-import type { Board as BoardType } from '../game/types';
+import type { Board as BoardType, Player } from '../game/types';
 import { isValidColumn } from '../game/board';
 import { Cell } from './Cell';
 
 interface BoardProps {
   board: BoardType;
   winningCells: readonly [number, number][];
+  lastMove: { row: number; column: number; player: Player } | null;
   disabled: boolean;
   previewColumn: number | null;
   onColumnHover: (column: number | null) => void;
@@ -13,6 +14,7 @@ interface BoardProps {
 export function Board({
   board,
   winningCells,
+  lastMove,
   disabled,
   previewColumn,
   onColumnHover,
@@ -23,12 +25,18 @@ export function Board({
     <div
       className="board"
       role="img"
-      aria-label="Connect 4 board. Use the seven column buttons above to make a move."
+      aria-label="Connect 4 board. Use the seven numbered column controls above to make a move."
       onMouseLeave={() => onColumnHover(null)}
     >
       {board.map((row, rowIndex) =>
         row.map((value, columnIndex) => {
           const playable = isValidColumn(board, columnIndex);
+          const isPreview = previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex);
+          const isLastMove =
+            lastMove?.row === rowIndex &&
+            lastMove.column === columnIndex &&
+            lastMove.player === value;
+
           return (
             <Cell
               key={rowIndex + '-' + columnIndex}
@@ -36,7 +44,8 @@ export function Board({
               row={rowIndex}
               column={columnIndex}
               winning={winning.has(rowIndex + ',' + columnIndex)}
-              preview={previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex)}
+              preview={isPreview}
+              animateDrop={isLastMove}
               onMouseEnter={() => !disabled && playable && onColumnHover(columnIndex)}
             />
           );
