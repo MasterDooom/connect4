@@ -29,6 +29,26 @@ h1 { margin:0; font-size:clamp(3rem,9vw,4.8rem); line-height:.86; letter-spacing
 .difficulty { display:flex; align-items:center; gap:9px; color:#8fa7a0; font-size:.78rem; font-weight:500; white-space:nowrap; }
 .difficulty select { min-height:38px; border:1px solid #28504a; border-radius:10px; padding:7px 30px 7px 10px; color:#f1f7f5; background:#102522; cursor:pointer; }
 .difficulty select:hover { border-color:#3b625b; }
+
+.player-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: -2px 2px 8px;
+  color: #6f8982;
+  font-size: .72rem;
+  font-weight: 500;
+}
+.player-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend-piece {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.legend-human { background: #19c37d; box-shadow: 0 0 8px rgba(25,195,125,.25); }
+.legend-ai { background: #22d3ee; box-shadow: 0 0 8px rgba(34,211,238,.25); }
+
 .column-controls { display:grid; grid-template-columns:repeat(7,1fr); gap:clamp(5px,1.2vw,9px); margin-bottom:7px; }
 .column-button { min-height:34px; border:1px solid transparent; border-radius:9px; padding:5px 0; color:#6f8982; background:transparent; cursor:pointer; transition:color 120ms ease,border-color 120ms ease,background 120ms ease,transform 120ms ease; }
 .column-button:hover:not(:disabled) { color:#19c37d; border-color:#28504a; background:#0b1c1a; transform:translateY(-1px); }
