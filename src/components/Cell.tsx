@@ -5,6 +5,7 @@ import { AI, EMPTY, HUMAN } from '../game/constants';
 interface CellProps {
   value: CellValue;
   winning: boolean;
+  columnActive: boolean;
   preview: boolean;
   animateDrop: boolean;
   row: number;
@@ -15,6 +16,7 @@ interface CellProps {
 export function Cell({
   value,
   winning,
+  columnActive,
   preview,
   animateDrop,
   row,
@@ -39,17 +41,14 @@ export function Cell({
       className={
         'cell ' +
         (winning ? 'cell-winning ' : '') +
+        (columnActive ? 'cell-column-active ' : '') +
         (preview ? 'cell-preview-target' : '')
       }
       aria-label={'Column ' + (column + 1) + ', row ' + (row + 1) + ' from top, ' + stateLabel}
       onMouseEnter={onMouseEnter}
     >
       <span
-        className={
-          'piece ' +
-          pieceClass +
-          (animateDrop ? ' piece-drop' : '')
-        }
+        className={'piece ' + pieceClass + (animateDrop ? ' piece-drop' : '')}
         style={pieceStyle}
         aria-hidden="true"
       />
