@@ -24,6 +24,6 @@ describe('AI-facing game primitives', () => {
       board = dropPiece(board, column, player)!.board;
     }
 
-    expect(getWinningCells(board, 2, 3, HUMAN)).toHaveLength(4);
+    expect(getWinningCells(board, 2, 0, HUMAN)).toHaveLength(4);
   });
 });
