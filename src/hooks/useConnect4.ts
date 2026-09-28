@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { findBestMove } from '../ai/minimax';
 import { createEmptyBoard, dropPiece, getLegalMoves } from '../game/board';
-import { HUMAN } from '../game/constants';
+import { AI, HUMAN } from '../game/constants';
 import { getTerminalState } from '../game/rules';
 import type { Board, GameStatus } from '../game/types';
 
@@ -10,6 +11,9 @@ export interface Connect4State {
   winningCells: readonly [number, number][];
   previewColumn: number | null;
   aiThinking: boolean;
+  aiNodes: number | null;
+  difficulty: number;
+  setDifficulty: (depth: number) => void;
   playColumn: (column: number) => void;
   setPreviewColumn: (column: number | null) => void;
   newGame: () => void;
@@ -20,9 +24,27 @@ export function useConnect4(): Connect4State {
   const [status, setStatus] = useState<GameStatus>('playing');
   const [winningCells, setWinningCells] = useState<readonly [number, number][]>([]);
   const [previewColumn, setPreviewColumn] = useState<number | null>(null);
+  const [aiThinking, setAiThinking] = useState(false);
+  const [aiNodes, setAiNodes] = useState<number | null>(null);
+  const [difficulty, setDifficulty] = useState(6);
+  const generation = useRef(0);
+
+  useEffect(() => () => {
+    generation.current += 1;
+  }, []);
+
+  const newGame = useCallback(() => {
+    generation.current += 1;
+    setBoard(createEmptyBoard());
+    setStatus('playing');
+    setWinningCells([]);
+    setPreviewColumn(null);
+    setAiThinking(false);
+    setAiNodes(null);
+  }, []);
 
   const playColumn = useCallback((column: number) => {
-    if (status !== 'playing' || !getLegalMoves(board).includes(column)) return;
+    if (status !== 'playing' || aiThinking || !getLegalMoves(board).includes(column)) return;
 
     const result = dropPiece(board, column, HUMAN);
     if (!result) return;
@@ -37,21 +59,48 @@ export function useConnect4(): Connect4State {
     setStatus(terminal.status);
     setWinningCells(terminal.winningCells);
     setPreviewColumn(null);
-  }, [board, status]);
 
-  const newGame = useCallback(() => {
-    setBoard(createEmptyBoard());
-    setStatus('playing');
-    setWinningCells([]);
-    setPreviewColumn(null);
-  }, []);
+    if (terminal.status !== 'playing') return;
+
+    const currentGeneration = generation.current;
+    setAiThinking(true);
+    setAiNodes(null);
+
+    window.setTimeout(() => {
+      if (generation.current !== currentGeneration) return;
+
+      const search = findBestMove(result.board, difficulty);
+      if (generation.current !== currentGeneration) return;
+
+      const aiMove = dropPiece(result.board, search.column, AI);
+      if (!aiMove) {
+        setAiThinking(false);
+        return;
+      }
+
+      const aiTerminal = getTerminalState(aiMove.board, {
+        row: aiMove.row,
+        column: aiMove.column,
+        player: AI,
+      });
+
+      setBoard(aiMove.board);
+      setStatus(aiTerminal.status);
+      setWinningCells(aiTerminal.winningCells);
+      setAiNodes(search.nodes);
+      setAiThinking(false);
+    }, 20);
+  }, [aiThinking, board, difficulty, status]);
 
   return {
     board,
     status,
     winningCells,
     previewColumn,
-    aiThinking: false,
+    aiThinking,
+    aiNodes,
+    difficulty,
+    setDifficulty,
     playColumn,
     setPreviewColumn,
     newGame,
