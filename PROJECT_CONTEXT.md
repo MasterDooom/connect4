@@ -529,13 +529,26 @@ Searching promising moves first increases alpha-beta pruning efficiency.
 
 Repository: `MasterDooom/connect4`
 Branch: `main`
-Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and polished responsive UI.
-Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, Stage 6 UI polish, automated verification, and static hostile review.
-Automated verification: GitHub Actions run 23 passed 14/14 tests and the production build.
+Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and responsive game UI.
+Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, first UI polish pass, automated verification, and static hostile review.
+Current change: second UI polish pass focused on clearer move affordance, a slightly smaller game arena, and animated piece drops.
+Automated verification before this UI pass: GitHub Actions run 25 passed 14/14 tests and the production build.
 Manual device gameplay remains the final unverified item; the connected desktop is available, but the project is not currently present as a local checkout there, so no manual browser interaction was claimed.
 Next priority: **manual gameplay review, then final launch review.**
 
 ## 22. Change Log
+
+### 2026-09-28 — UI polish pass 2
+- Reworked numbered column controls into a dedicated move-picker panel with clear "YOUR MOVE" guidance.
+- Added number + drop-arrow affordances, stronger hover/focus states, and button hover/focus preview linking.
+- Reduced arena width and spacing to keep the full board visible more often on laptop-height screens.
+- Added compact height-based spacing adjustments for shorter viewports.
+- Added glossy token styling, board depth, and a short gravity/drop animation for each newly placed piece.
+- Added last-move state to the React orchestration layer solely for visual drop feedback.
+- Updated hover/focus copy to make the column-control interaction explicit.
+- Preserved keyboard accessibility and reduced-motion behavior.
+- Used the previously shared motion/interaction/design references as inspiration without adding external runtime dependencies.
+
 
 ### 2026-09-28
 - Completed Stage 6 UI/UX polish: responsive layout, player legend, clearer controls, accessible status/labels, semantic board grouping, focus states, and reduced-motion support.
