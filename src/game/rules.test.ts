@@ -75,4 +75,20 @@ describe('Connect 4 rules', () => {
     expect(state.status).toBe('human-won');
     expect(state.winningCells).toHaveLength(4);
   });
+  it('detects a full-board draw when the last move does not win', () => {
+    let board = createEmptyBoard();
+    const pattern = [HUMAN, AI, AI, HUMAN, HUMAN, AI, AI];
+
+    for (let row = 0; row < 6; row += 1) {
+      for (let column = 0; column < 7; column += 1) {
+        const result = dropPiece(board, column, pattern[(row + column) % pattern.length] as 1 | 2);
+        if (!result) throw new Error('Invalid draw test move');
+        board = result.board;
+      }
+    }
+
+    const state = getTerminalState(board, null);
+    expect(state.status).toBe('draw');
+  });
+
 });
