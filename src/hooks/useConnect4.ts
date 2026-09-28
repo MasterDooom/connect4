@@ -114,7 +114,7 @@ export function useConnect4(): Connect4State {
           setAiThinking(false);
         }
       }
-    }, 20);
+    }, 140);
   }, [aiThinking, board, difficulty, status]);
 
   return {
