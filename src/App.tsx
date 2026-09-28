@@ -1,61 +1,85 @@
+import { useEffect, useState } from 'react';
 import { Board } from './components/Board';
 import { GameStatus } from './components/GameStatus';
+import { HomeScreen } from './components/HomeScreen';
 import { NewGameButton } from './components/NewGameButton';
 import { PlayerCard } from './components/PlayerCard';
+import { ResultOverlay } from './components/ResultOverlay';
 import { getLegalMoves } from './game/board';
 import { useConnect4 } from './hooks/useConnect4';
 
-const DIFFICULTIES = [
-  { depth: 4, label: 'EASY' },
-  { depth: 6, label: 'NORMAL' },
-  { depth: 7, label: 'HARD' },
-];
+type Screen = 'home' | 'match' | 'result';
 
 function App() {
   const game = useConnect4();
+  const [screen, setScreen] = useState<Screen>('home');
+
   const legalMoves = new Set(getLegalMoves(game.board));
   const gameLocked = game.status !== 'playing' || game.aiThinking;
   const humanActive = game.status === 'playing' && !game.aiThinking;
   const aiActive = game.aiThinking;
 
+  useEffect(() => {
+    if (screen !== 'match' || game.status === 'playing' || game.aiThinking) return;
+
+    const timeout = window.setTimeout(() => {
+      setScreen('result');
+    }, 950);
+
+    return () => window.clearTimeout(timeout);
+  }, [screen, game.status, game.aiThinking]);
+
+  const startMatch = () => {
+    game.newGame();
+    setScreen('match');
+  };
+
+  const rematch = () => {
+    game.newGame();
+    setScreen('match');
+  };
+
+  const goHome = () => {
+    game.newGame();
+    setScreen('home');
+  };
+
+  if (screen === 'home') {
+    return (
+      <HomeScreen
+        difficulty={game.difficulty}
+        setDifficulty={game.setDifficulty}
+        onStart={startMatch}
+      />
+    );
+  }
+
+  const resultStatus = game.status === 'playing' ? null : game.status;
+
   return (
     <main className="app-shell">
       <section className="game-frame" aria-labelledby="game-title">
-        <header className="game-topbar">
-          <div className="brand-lockup">
-            <p className="eyebrow">GAME-GD2 · AI ARENA</p>
-            <div className="brand-line">
-              <h1 id="game-title">CONNECT <span>4</span></h1>
-              <span className="brand-dot" aria-hidden="true" />
-            </div>
-            <p className="brand-subtitle">Human <span aria-hidden="true">vs</span> Minimax AI</p>
+        <header className="match-topbar">
+          <button type="button" className="menu-button" onClick={goHome}>
+            <span aria-hidden="true">←</span>
+            MENU
+          </button>
+
+          <div className="match-brand">
+            <span className="match-brand-kicker">AI ARENA</span>
+            <h1 id="game-title">CONNECT <span>4</span></h1>
+            <span className="match-brand-subtitle">HUMAN VS MINIMAX</span>
           </div>
 
-          <div className="topbar-actions">
-            <div className="difficulty-control" aria-label="AI difficulty">
-              <span className="difficulty-label">AI DEPTH</span>
-              <div className="difficulty-buttons">
-                {DIFFICULTIES.map(({ depth, label }) => (
-                  <button
-                    key={depth}
-                    type="button"
-                    className={'difficulty-button' + (game.difficulty === depth ? ' selected' : '')}
-                    onClick={() => game.setDifficulty(depth)}
-                    disabled={game.aiThinking}
-                    aria-pressed={game.difficulty === depth}
-                  >
-                    <span>{label}</span>
-                    <small>{depth}</small>
-                  </button>
-                ))}
-              </div>
+          <div className="match-actions">
+            <div className="match-difficulty">
+              <span>DEPTH {game.difficulty}</span>
             </div>
-
-            <NewGameButton onClick={game.newGame} />
+            <NewGameButton onClick={rematch} />
           </div>
         </header>
 
-        <div className="arena-layout">
+        <div className="match-layout">
           <PlayerCard side="human" active={humanActive} />
 
           <section className="arena-center" aria-label="Connect 4 game board">
@@ -65,7 +89,7 @@ function App() {
                 <div>
                   <p className="turn-eyebrow">{aiActive ? 'OPPONENT TURN' : 'YOUR TURN'}</p>
                   <p className="turn-title">
-                    {aiActive ? 'AI is reading the board' : 'Pick a column'}
+                    {aiActive ? 'The machine is reading the board' : 'Choose your column'}
                   </p>
                 </div>
               </div>
@@ -115,16 +139,17 @@ function App() {
                   {game.aiThinking
                     ? 'AI is calculating its response.'
                     : game.status === 'playing'
-                      ? 'Click a number to drop your disc.'
-                      : 'Match complete · start a new game to rematch.'}
+                      ? 'Select a numbered column to drop your disc.'
+                      : 'Final position locked.'}
                 </span>
               </div>
 
-              {game.aiNodes !== null && (
-                <p className="search-info" aria-label={game.aiNodes.toLocaleString() + ' positions searched by the AI'}>
-                  {game.aiNodes.toLocaleString()} nodes
-                </p>
-              )}
+              <div className="match-stat-strip">
+                <span>MOVE <b>{String(game.moveCount).padStart(2, '0')}</b></span>
+                {game.aiNodes !== null && (
+                  <span>SEARCH <b>{game.aiNodes.toLocaleString()}</b></span>
+                )}
+              </div>
             </div>
           </section>
 
@@ -135,6 +160,17 @@ function App() {
             difficulty={game.difficulty}
           />
         </div>
+
+        {screen === 'result' && resultStatus && (
+          <ResultOverlay
+            status={resultStatus}
+            moveCount={game.moveCount}
+            aiNodes={game.aiNodes}
+            difficulty={game.difficulty}
+            onRematch={rematch}
+            onMenu={goHome}
+          />
+        )}
       </section>
     </main>
   );
