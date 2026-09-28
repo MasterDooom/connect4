@@ -19,13 +19,13 @@ export function Board({
   onColumnClick,
   onColumnHover,
 }: BoardProps) {
-  const winning = new Set(winningCells.map(([row, column]) => `${row},${column}`));
+  const winning = new Set(winningCells.map(([row, column]) => row + ',' + column));
 
   return (
     <div
       className="board"
-      role="grid"
-      aria-label="Connect 4 board"
+      role="group"
+      aria-label="Connect 4 board. Use the column buttons above to make a move."
       onMouseLeave={() => onColumnHover(null)}
     >
       {board.map((row, rowIndex) =>
@@ -33,11 +33,11 @@ export function Board({
           const playable = isValidColumn(board, columnIndex);
           return (
             <Cell
-              key={`${rowIndex}-${columnIndex}`}
+              key={rowIndex + '-' + columnIndex}
               value={value}
               row={rowIndex}
               column={columnIndex}
-              winning={winning.has(`${rowIndex},${columnIndex}`)}
+              winning={winning.has(rowIndex + ',' + columnIndex)}
               preview={previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex)}
               disabled={disabled || !playable}
               onClick={() => onColumnClick(columnIndex)}
