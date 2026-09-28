@@ -531,13 +531,20 @@ Repository: `MasterDooom/connect4`
 Branch: `main`
 Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and responsive game UI.
 Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, first UI polish pass, automated verification, and static hostile review.
-Current change: third UI polish pass focused on a game-style HUD, stronger board hierarchy, player status cards, tighter move controls, and more responsive game feedback.
+Current change: fourth UI polish pass focused on a smaller on-screen footprint, slower piece-drop motion, a deliberate AI response pause, and a deep-ocean/off-white visual palette.
 Automated verification for the current UI pass: GitHub Actions passed 14/14 tests and the production build.
 Manual device gameplay remains the final unverified item; the connected desktop is available, but the project is not currently present as a local checkout there, so no manual browser interaction was claimed.
 Next priority: **manual gameplay review, then final launch review.**
 
 ## 22. Change Log
-\n### 2026-09-28 — UI polish pass 3
+\n### 2026-09-28 — UI polish pass 4
+- Reduced the desktop arena/board scale so the complete 7×6 board is visible more reliably on standard laptop-height screens.
+- Slowed the piece-drop animation from 430ms to 650ms for clearer move feedback.
+- Added a short 140ms AI response delay so the AI turn is visually distinct instead of appearing instantaneous.
+- Reworked the visual palette from green/cyan into deep ocean blues with off-white text and pearl-toned AI pieces.
+- Updated player-card disc labels to match the new visual system.
+
+### 2026-09-28 — UI polish pass 3
 - Reworked the page from a dashboard-like layout into a game-arena HUD with player cards on either side of the board.
 - Added dedicated active-player states for the human and minimax opponent.
 - Replaced the difficulty select with compact game-style difficulty buttons showing search depth.
