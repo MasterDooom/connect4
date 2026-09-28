@@ -7,6 +7,7 @@ interface CellProps {
   preview: boolean;
   disabled: boolean;
   onClick: () => void;
+  onMouseEnter: () => void;
   row: number;
   column: number;
 }
@@ -17,6 +18,7 @@ export function Cell({
   preview,
   disabled,
   onClick,
+  onMouseEnter,
   row,
   column,
 }: CellProps) {
@@ -31,6 +33,7 @@ export function Cell({
       type="button"
       disabled={disabled}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
       aria-label={
         value === EMPTY
           ? `Column ${column + 1}, row ${row + 1}, empty`
