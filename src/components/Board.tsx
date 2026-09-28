@@ -7,7 +7,6 @@ interface BoardProps {
   winningCells: readonly [number, number][];
   disabled: boolean;
   previewColumn: number | null;
-  onColumnClick: (column: number) => void;
   onColumnHover: (column: number | null) => void;
 }
 
@@ -16,7 +15,6 @@ export function Board({
   winningCells,
   disabled,
   previewColumn,
-  onColumnClick,
   onColumnHover,
 }: BoardProps) {
   const winning = new Set(winningCells.map(([row, column]) => row + ',' + column));
@@ -24,8 +22,8 @@ export function Board({
   return (
     <div
       className="board"
-      role="group"
-      aria-label="Connect 4 board. Use the column buttons above to make a move."
+      role="img"
+      aria-label="Connect 4 board. Use the seven column buttons above to make a move."
       onMouseLeave={() => onColumnHover(null)}
     >
       {board.map((row, rowIndex) =>
@@ -39,8 +37,6 @@ export function Board({
               column={columnIndex}
               winning={winning.has(rowIndex + ',' + columnIndex)}
               preview={previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex)}
-              disabled={disabled || !playable}
-              onClick={() => onColumnClick(columnIndex)}
               onMouseEnter={() => !disabled && playable && onColumnHover(columnIndex)}
             />
           );
