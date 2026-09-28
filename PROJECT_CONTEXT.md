@@ -380,15 +380,16 @@ Exit: AI demonstrably plans ahead and remains responsive.
 Exit: complete reliable Human vs AI games.
 
 ### Stage 6 — UI Polish
-- Visual system.
-- Board/piece styling.
-- Hover preview.
-- Win highlight.
-- Status states.
-- Difficulty control.
-- Responsive layout.
-- Keyboard/accessibility.
-- Minimal useful animation.
+Status: COMPLETE.
+- Visual system and responsive layout.
+- Board/piece styling and player legend.
+- Column hover preview and explicit keyboard column controls.
+- Win highlight and distinct terminal states.
+- Difficulty control with disabled state during AI thinking.
+- Accessible labels/status announcements.
+- Visible keyboard focus.
+- Reduced-motion support.
+- Removed external font dependency for a self-contained UI.
 
 Exit: finished game presentation.
 
@@ -524,13 +525,16 @@ Searching promising moves first increases alpha-beta pruning efficiency.
 
 Repository: `MasterDooom/connect4`
 Branch: `main`
-Current code: playable Human-vs-AI Connect 4 with pure game engine and minimax AI.
-Completed: reconnaissance, scope, architecture, AI strategy, staged plan, test/review criteria.
-Next priority: **Stage 6 — UI polish/accessibility, then Stage 7 verification and Stage 8 hostile review.**
+Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and polished responsive UI.
+Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, and Stage 6 UI polish.
+Not yet verified on the local device: runtime tests/build/manual gameplay.
+Next priority: **Stage 7 verification, then Stage 8 hostile review.**
 
 ## 22. Change Log
 
 ### 2026-09-28
+- Completed Stage 6 UI/UX polish: responsive layout, player legend, clearer controls, accessible status/labels, semantic board grouping, focus states, and reduced-motion support.
+- Removed the remote Google Fonts import so the demo UI has no external font dependency.
 - Confirmed `MasterDooom/connect4`.
 - Confirmed `main`.
 - Confirmed effectively empty starting repository.
