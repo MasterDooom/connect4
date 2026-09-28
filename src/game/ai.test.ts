@@ -14,18 +14,16 @@ describe('AI-facing game primitives', () => {
   it('detects a diagonal down-left win', () => {
     let board = createEmptyBoard();
     const moves: [number, 1 | 2][] = [
-      [3, HUMAN], [2, AI],
-      [2, HUMAN], [1, AI],
-      [1, HUMAN], [0, AI],
-      [1, HUMAN], [0, AI],
-      [0, HUMAN], [4, AI],
-      [0, HUMAN],
+      [3, HUMAN],
+      [2, AI], [2, HUMAN],
+      [1, AI], [1, AI], [1, HUMAN],
+      [0, AI], [0, AI], [0, AI], [0, HUMAN],
     ];
 
     for (const [column, player] of moves) {
       board = dropPiece(board, column, player)!.board;
     }
 
-    expect(getWinningCells(board, 2, 1, HUMAN)).toHaveLength(4);
+    expect(getWinningCells(board, 2, 3, HUMAN)).toHaveLength(4);
   });
 });
