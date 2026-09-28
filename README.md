@@ -139,3 +139,10 @@ Automated verification is passing in GitHub Actions:
 Live manual browser gameplay is the remaining verification item. The implementation has not been claimed as manually tested on the local device.
 
 See PROJECT_CONTEXT.md for the full architecture, test matrix, constraints, and GAME-GD2 viva explanation.
+
+### Game flow
+
+- Premium home screen with AI difficulty selection and a quick rules drawer.
+- Full match screen with player states, numbered drop controls, move/search stats, and restart/menu controls.
+- Game-over result screen with win, loss, or draw state, match statistics, rematch, and main-menu actions.
+- Piece drops use a gravity-style trajectory with acceleration, settle bounce, and subtle motion blur.
