@@ -33,7 +33,7 @@ export function Cell({
     value === HUMAN ? 'your piece' : 'AI piece';
 
   const pieceStyle = animateDrop
-    ? ({ '--drop-rows': row + 1 } as CSSProperties)
+    ? ({ '--drop-distance': `-${(row + 1) * 100 + row * 12}%` } as CSSProperties)
     : undefined;
 
   return (
