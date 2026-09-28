@@ -13,6 +13,7 @@ export interface Connect4State {
   previewColumn: number | null;
   aiThinking: boolean;
   aiNodes: number | null;
+  moveCount: number;
   difficulty: number;
   setDifficulty: (depth: number) => void;
   playColumn: (column: number) => void;
@@ -28,6 +29,7 @@ export function useConnect4(): Connect4State {
   const [previewColumn, setPreviewColumn] = useState<number | null>(null);
   const [aiThinking, setAiThinking] = useState(false);
   const [aiNodes, setAiNodes] = useState<number | null>(null);
+  const [moveCount, setMoveCount] = useState(0);
   const [difficulty, setDifficulty] = useState(6);
   const generation = useRef(0);
   const aiTimeout = useRef<number | null>(null);
@@ -53,6 +55,7 @@ export function useConnect4(): Connect4State {
     setPreviewColumn(null);
     setAiThinking(false);
     setAiNodes(null);
+    setMoveCount(0);
   }, []);
 
   const playColumn = useCallback((column: number) => {
@@ -75,6 +78,7 @@ export function useConnect4(): Connect4State {
       column: result.column,
       player: HUMAN,
     });
+    setMoveCount((count) => count + 1);
     setPreviewColumn(null);
 
     if (terminal.status !== 'playing') return;
@@ -107,6 +111,7 @@ export function useConnect4(): Connect4State {
           column: aiMove.column,
           player: AI,
         });
+        setMoveCount((count) => count + 1);
         setAiNodes(search.nodes);
       } finally {
         aiTimeout.current = null;
@@ -125,6 +130,7 @@ export function useConnect4(): Connect4State {
     previewColumn,
     aiThinking,
     aiNodes,
+    moveCount,
     difficulty,
     setDifficulty,
     playColumn,
