@@ -531,13 +531,21 @@ Repository: `MasterDooom/connect4`
 Branch: `main`
 Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and responsive game UI.
 Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, first UI polish pass, automated verification, and static hostile review.
-Current change: second UI polish pass focused on clearer move affordance, a slightly smaller game arena, and animated piece drops.
-Automated verification before this UI pass: GitHub Actions run 25 passed 14/14 tests and the production build.
+Current change: third UI polish pass focused on a game-style HUD, stronger board hierarchy, player status cards, tighter move controls, and more responsive game feedback.
+Automated verification for the current UI pass: GitHub Actions passed 14/14 tests and the production build.
 Manual device gameplay remains the final unverified item; the connected desktop is available, but the project is not currently present as a local checkout there, so no manual browser interaction was claimed.
 Next priority: **manual gameplay review, then final launch review.**
 
 ## 22. Change Log
-
+\n### 2026-09-28 — UI polish pass 3
+- Reworked the page from a dashboard-like layout into a game-arena HUD with player cards on either side of the board.
+- Added dedicated active-player states for the human and minimax opponent.
+- Replaced the difficulty select with compact game-style difficulty buttons showing search depth.
+- Attached the numbered drop controls directly to the board area and strengthened hover/focus/active feedback.
+- Added whole-column hover illumination while retaining the exact landing-cell preview.
+- Increased board depth, token shading, highlights, and win-state motion without adding runtime dependencies.
+- Kept the reduced-motion, keyboard, responsive, and single-interaction-path accessibility work intact.
+- Took visual cues from current online Connect Four and browser game interfaces: side player panels, visible drop affordances, active-turn feedback, and explicit hover/drop animation patterns.\n\n
 ### 2026-09-28 — UI polish pass 2
 - Reworked numbered column controls into a dedicated move-picker panel with clear "YOUR MOVE" guidance.
 - Added number + drop-arrow affordances, stronger hover/focus states, and button hover/focus preview linking.
