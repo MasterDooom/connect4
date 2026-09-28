@@ -524,9 +524,9 @@ Searching promising moves first increases alpha-beta pruning efficiency.
 
 Repository: `MasterDooom/connect4`
 Branch: `main`
-Current code: minimal README only.
+Current code: playable Human-vs-AI Connect 4 with pure game engine and minimax AI.
 Completed: reconnaissance, scope, architecture, AI strategy, staged plan, test/review criteria.
-Next priority: **Stage 1 — Project foundation.**
+Next priority: **Stage 6 — UI polish/accessibility, then Stage 7 verification and Stage 8 hostile review.**
 
 ## 22. Change Log
 
