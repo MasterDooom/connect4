@@ -14,9 +14,9 @@ function boardFromMoves(moves: [number, 1 | 2][]) {
 describe('Connect 4 AI', () => {
   it('takes an immediate winning move', () => {
     const board = boardFromMoves([
-      [0, HUMAN], [6, AI],
-      [1, HUMAN], [6, AI],
-      [2, HUMAN], [5, AI],
+      [0, AI], [6, HUMAN],
+      [1, AI], [6, HUMAN],
+      [2, AI], [5, HUMAN],
     ]);
 
     expect(findBestMove(board, 4).column).toBe(3);
