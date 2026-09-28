@@ -18,7 +18,8 @@ A browser-based Connect 4 game built for **GAME-GD2 — Turn-Based Strategy Game
 - AI immediate-win and immediate-block behavior
 - Responsive board UI
 - Keyboard-focusable controls
-- Visible valid-column controls
+- Clear numbered column controls
+- Animated token drops and hover previews
 - AI thinking state
 - Winning-cell highlighting
 
