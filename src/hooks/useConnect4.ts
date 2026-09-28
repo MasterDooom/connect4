@@ -28,13 +28,22 @@ export function useConnect4(): Connect4State {
   const [aiNodes, setAiNodes] = useState<number | null>(null);
   const [difficulty, setDifficulty] = useState(6);
   const generation = useRef(0);
+  const aiTimeout = useRef<number | null>(null);
 
   useEffect(() => () => {
     generation.current += 1;
+    if (aiTimeout.current !== null) {
+      window.clearTimeout(aiTimeout.current);
+      aiTimeout.current = null;
+    }
   }, []);
 
   const newGame = useCallback(() => {
     generation.current += 1;
+    if (aiTimeout.current !== null) {
+      window.clearTimeout(aiTimeout.current);
+      aiTimeout.current = null;
+    }
     setBoard(createEmptyBoard());
     setStatus('playing');
     setWinningCells([]);
@@ -66,7 +75,7 @@ export function useConnect4(): Connect4State {
     setAiThinking(true);
     setAiNodes(null);
 
-    window.setTimeout(() => {
+    aiTimeout.current = window.setTimeout(() => {
       if (generation.current !== currentGeneration) return;
 
       try {
@@ -87,6 +96,7 @@ export function useConnect4(): Connect4State {
         setWinningCells(aiTerminal.winningCells);
         setAiNodes(search.nodes);
       } finally {
+        aiTimeout.current = null;
         if (generation.current === currentGeneration) {
           setAiThinking(false);
         }
