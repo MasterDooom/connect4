@@ -3,12 +3,13 @@ import { findBestMove } from '../ai/minimax';
 import { createEmptyBoard, dropPiece, getLegalMoves } from '../game/board';
 import { AI, HUMAN } from '../game/constants';
 import { getTerminalState } from '../game/rules';
-import type { Board, GameStatus } from '../game/types';
+import type { Board, GameStatus, Player } from '../game/types';
 
 export interface Connect4State {
   board: Board;
   status: GameStatus;
   winningCells: readonly [number, number][];
+  lastMove: { row: number; column: number; player: Player } | null;
   previewColumn: number | null;
   aiThinking: boolean;
   aiNodes: number | null;
@@ -23,6 +24,7 @@ export function useConnect4(): Connect4State {
   const [board, setBoard] = useState(createEmptyBoard);
   const [status, setStatus] = useState<GameStatus>('playing');
   const [winningCells, setWinningCells] = useState<readonly [number, number][]>([]);
+  const [lastMove, setLastMove] = useState<Connect4State['lastMove']>(null);
   const [previewColumn, setPreviewColumn] = useState<number | null>(null);
   const [aiThinking, setAiThinking] = useState(false);
   const [aiNodes, setAiNodes] = useState<number | null>(null);
@@ -47,6 +49,7 @@ export function useConnect4(): Connect4State {
     setBoard(createEmptyBoard());
     setStatus('playing');
     setWinningCells([]);
+    setLastMove(null);
     setPreviewColumn(null);
     setAiThinking(false);
     setAiNodes(null);
@@ -67,6 +70,11 @@ export function useConnect4(): Connect4State {
     setBoard(result.board);
     setStatus(terminal.status);
     setWinningCells(terminal.winningCells);
+    setLastMove({
+      row: result.row,
+      column: result.column,
+      player: HUMAN,
+    });
     setPreviewColumn(null);
 
     if (terminal.status !== 'playing') return;
@@ -94,6 +102,11 @@ export function useConnect4(): Connect4State {
         setBoard(aiMove.board);
         setStatus(aiTerminal.status);
         setWinningCells(aiTerminal.winningCells);
+        setLastMove({
+          row: aiMove.row,
+          column: aiMove.column,
+          player: AI,
+        });
         setAiNodes(search.nodes);
       } finally {
         aiTimeout.current = null;
@@ -108,6 +121,7 @@ export function useConnect4(): Connect4State {
     board,
     status,
     winningCells,
+    lastMove,
     previewColumn,
     aiThinking,
     aiNodes,
