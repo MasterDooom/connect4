@@ -1,11 +1,11 @@
-import type { GameStatus } from '../game/types';
+import type { GameStatus as GameStatusType } from '../game/types';
 
 interface GameStatusProps {
-  status: GameStatus;
+  status: GameStatusType;
   aiThinking: boolean;
 }
 
-const messages: Record<GameStatus, string> = {
+const messages: Record<GameStatusType, string> = {
   playing: 'Your turn',
   'human-won': 'You win',
   'ai-won': 'AI wins',
@@ -14,10 +14,12 @@ const messages: Record<GameStatus, string> = {
 
 export function GameStatus({ status, aiThinking }: GameStatusProps) {
   const text = aiThinking ? 'AI is thinking…' : messages[status];
+  const statusClass = aiThinking ? 'thinking' : 'status-' + status;
+
   return (
-    <div className="status" role="status" aria-live="polite">
-      <span className={`status-dot ${aiThinking ? 'thinking' : ''}`} aria-hidden="true" />
-      {text}
+    <div className={'status ' + statusClass} role="status" aria-live="polite" aria-atomic="true">
+      <span className={'status-dot ' + (aiThinking ? 'thinking' : '')} aria-hidden="true" />
+      <span>{text}</span>
     </div>
   );
 }
