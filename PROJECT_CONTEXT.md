@@ -394,6 +394,8 @@ Status: COMPLETE.
 Exit: finished game presentation.
 
 ### Stage 7 — Verification
+Status: AUTOMATED VERIFICATION COMPLETE; LIVE MANUAL GAMEPLAY PENDING.
+
 Run:
 - TypeScript/build.
 - Lint if configured.
@@ -404,6 +406,8 @@ Run:
 - Accessibility checks.
 
 ### Stage 8 — Hostile Review
+Status: STATIC/CODE HOSTILE REVIEW COMPLETE; LIVE MANUAL UX REVIEW PENDING.
+
 Review for:
 - Illegal moves.
 - Missed/false wins.
@@ -526,9 +530,10 @@ Searching promising moves first increases alpha-beta pruning efficiency.
 Repository: `MasterDooom/connect4`
 Branch: `main`
 Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and polished responsive UI.
-Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, and Stage 6 UI polish.
-Not yet verified on the local device: runtime tests/build/manual gameplay.
-Next priority: **Stage 7 verification, then Stage 8 hostile review.**
+Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, Stage 6 UI polish, automated verification, and static hostile review.
+Automated verification: GitHub Actions run 23 passed 14/14 tests and the production build.
+Manual device gameplay remains the final unverified item; the connected desktop is available, but the project is not currently present as a local checkout there, so no manual browser interaction was claimed.
+Next priority: **manual gameplay review, then final launch review.**
 
 ## 22. Change Log
 
@@ -545,3 +550,12 @@ Next priority: **Stage 7 verification, then Stage 8 hostile review.**
 - Defined center-first move ordering.
 - Defined staged implementation/testing/hostile-review workflow.
 - Created this source-of-truth project context.
+
+
+### 2026-09-28 — Verification and hostile review
+- Corrected the remaining AI diagonal test fixture.
+- Added explicit cleanup for pending AI timeouts during New Game/unmount.
+- Simplified board accessibility by making cells presentational and keeping the seven column buttons as the single keyboard interaction path.
+- Preserved mouse hover previews after the board semantics refactor.
+- GitHub Actions run 23 passed all 14 tests and the production build.
+- Static hostile review found no additional correctness, AI, state-management, or UI architecture issues requiring changes.
