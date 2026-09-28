@@ -3,10 +3,17 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'site/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig*.json'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -31,6 +38,21 @@ jobs:
 
       - name: Build Vite app
         run: npm run build
+
+      - name: Publish static files for branch-based Pages
+        run: |
+          rm -rf assets
+          cp -R dist/. .
+          touch .nojekyll
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html assets .nojekyll
+          if git diff --cached --quiet; then
+            echo "No static Pages changes."
+          else
+            git commit -m "chore: publish Vite build"
+            git push
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
