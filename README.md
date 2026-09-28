@@ -127,8 +127,13 @@ Implementation is being completed in explicit stages:
 
 ## Verification status
 
-The repository contains automated Vitest coverage for core game rules and AI tactics, plus a GitHub Actions workflow for tests and builds.
+Automated verification is passing in GitHub Actions:
 
-At the current development checkpoint, the GitHub Actions API has not reported a workflow run yet. Local execution with npm install && npm test && npm run build remains the authoritative immediate verification step until Actions produces a run.
+- 14/14 Vitest tests pass.
+- Production TypeScript/Vite build passes.
+- AI tactical tests cover immediate wins, immediate blocks, full columns, and heuristic behavior.
+- Static hostile review covered rules, minimax/alpha-beta structure, state transitions, stale AI results, timer cleanup, accessibility, responsive UI structure, and redundant interaction paths.
+
+Live manual browser gameplay is the remaining verification item. The implementation has not been claimed as manually tested on the local device.
 
 See PROJECT_CONTEXT.md for the full architecture, test matrix, constraints, and GAME-GD2 viva explanation.
