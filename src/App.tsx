@@ -65,7 +65,6 @@ function App() {
           winningCells={game.winningCells}
           disabled={gameLocked}
           previewColumn={game.previewColumn}
-          onColumnClick={game.playColumn}
           onColumnHover={game.setPreviewColumn}
         />
 
