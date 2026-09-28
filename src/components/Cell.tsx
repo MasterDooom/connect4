@@ -27,20 +27,20 @@ export function Cell({
     value === AI ? 'piece-ai' :
     preview ? 'piece-preview' : '';
 
+  const stateLabel =
+    value === EMPTY ? 'empty' :
+    value === HUMAN ? 'your piece' : 'AI piece';
+
   return (
     <button
-      className={`cell ${winning ? 'cell-winning' : ''}`}
+      className={'cell ' + (winning ? 'cell-winning' : '')}
       type="button"
       disabled={disabled}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
-      aria-label={
-        value === EMPTY
-          ? `Column ${column + 1}, row ${row + 1}, empty`
-          : `Column ${column + 1}, row ${row + 1}, ${value === HUMAN ? 'your' : 'AI'} piece`
-      }
+      aria-label={'Column ' + (column + 1) + ', row ' + (row + 1) + ' from top, ' + stateLabel}
     >
-      <span className={`piece ${pieceClass}`} aria-hidden="true" />
+      <span className={'piece ' + pieceClass} aria-hidden="true" />
     </button>
   );
 }
