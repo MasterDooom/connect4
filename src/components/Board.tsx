@@ -1,4 +1,5 @@
 import type { Board as BoardType } from '../game/types';
+import { isValidColumn } from '../game/board';
 import { Cell } from './Cell';
 
 interface BoardProps {
@@ -28,18 +29,22 @@ export function Board({
       onMouseLeave={() => onColumnHover(null)}
     >
       {board.map((row, rowIndex) =>
-        row.map((value, columnIndex) => (
-          <Cell
-            key={`${rowIndex}-${columnIndex}`}
-            value={value}
-            row={rowIndex}
-            column={columnIndex}
-            winning={winning.has(`${rowIndex},${columnIndex}`)}
-            preview={previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex)}
-            disabled={disabled}
-            onClick={() => onColumnClick(columnIndex)}
-          />
-        )),
+        row.map((value, columnIndex) => {
+          const playable = isValidColumn(board, columnIndex);
+          return (
+            <Cell
+              key={`${rowIndex}-${columnIndex}`}
+              value={value}
+              row={rowIndex}
+              column={columnIndex}
+              winning={winning.has(`${rowIndex},${columnIndex}`)}
+              preview={previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex)}
+              disabled={disabled || !playable}
+              onClick={() => onColumnClick(columnIndex)}
+              onMouseEnter={() => !disabled && playable && onColumnHover(columnIndex)}
+            />
+          );
+        }),
       )}
     </div>
   );
