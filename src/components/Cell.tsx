@@ -7,6 +7,7 @@ interface CellProps {
   preview: boolean;
   row: number;
   column: number;
+  onMouseEnter: () => void;
 }
 
 export function Cell({
@@ -15,6 +16,7 @@ export function Cell({
   preview,
   row,
   column,
+  onMouseEnter,
 }: CellProps) {
   const pieceClass =
     value === HUMAN ? 'piece-human' :
@@ -29,6 +31,7 @@ export function Cell({
     <div
       className={'cell ' + (winning ? 'cell-winning' : '')}
       aria-label={'Column ' + (column + 1) + ', row ' + (row + 1) + ' from top, ' + stateLabel}
+      onMouseEnter={onMouseEnter}
     >
       <span className={'piece ' + pieceClass} aria-hidden="true" />
     </div>
