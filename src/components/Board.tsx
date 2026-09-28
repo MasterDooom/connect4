@@ -31,7 +31,9 @@ export function Board({
       {board.map((row, rowIndex) =>
         row.map((value, columnIndex) => {
           const playable = isValidColumn(board, columnIndex);
-          const isPreview = previewColumn === columnIndex && rowIndex === getPreviewRow(board, columnIndex);
+          const isPreview =
+            previewColumn === columnIndex &&
+            rowIndex === getPreviewRow(board, columnIndex);
           const isLastMove =
             lastMove?.row === rowIndex &&
             lastMove.column === columnIndex &&
@@ -44,6 +46,7 @@ export function Board({
               row={rowIndex}
               column={columnIndex}
               winning={winning.has(rowIndex + ',' + columnIndex)}
+              columnActive={previewColumn === columnIndex}
               preview={isPreview}
               animateDrop={isLastMove}
               onMouseEnter={() => !disabled && playable && onColumnHover(columnIndex)}
