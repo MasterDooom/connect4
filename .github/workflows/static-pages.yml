@@ -33,6 +33,13 @@ jobs:
       - name: Build Vite app
         run: npm run build
 
+      - name: Normalize Vite HTML output
+        run: |
+          if [ -f dist/site/index.html ]; then
+            mv dist/site/index.html dist/index.html
+            rm -rf dist/site
+          fi
+
       - name: Publish production files to branch root
         run: |
           rm -rf assets
