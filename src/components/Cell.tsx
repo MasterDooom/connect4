@@ -5,9 +5,6 @@ interface CellProps {
   value: CellValue;
   winning: boolean;
   preview: boolean;
-  disabled: boolean;
-  onClick: () => void;
-  onMouseEnter: () => void;
   row: number;
   column: number;
 }
@@ -16,9 +13,6 @@ export function Cell({
   value,
   winning,
   preview,
-  disabled,
-  onClick,
-  onMouseEnter,
   row,
   column,
 }: CellProps) {
@@ -32,15 +26,11 @@ export function Cell({
     value === HUMAN ? 'your piece' : 'AI piece';
 
   return (
-    <button
+    <div
       className={'cell ' + (winning ? 'cell-winning' : '')}
-      type="button"
-      disabled={disabled}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
       aria-label={'Column ' + (column + 1) + ', row ' + (row + 1) + ' from top, ' + stateLabel}
     >
       <span className={'piece ' + pieceClass} aria-hidden="true" />
-    </button>
+    </div>
   );
 }
