@@ -531,13 +531,23 @@ Repository: `MasterDooom/connect4`
 Branch: `main`
 Current code: playable Human-vs-AI Connect 4 with pure game engine, minimax AI, and responsive game UI.
 Completed: reconnaissance, architecture, game engine, tests, playable UI, AI, Human-vs-AI integration, first UI polish pass, automated verification, and static hostile review.
-Current change: fourth UI polish pass focused on a smaller on-screen footprint, slower piece-drop motion, a deliberate AI response pause, and a deep-ocean/off-white visual palette.
+Current change: premium game-flow pass with a dedicated home screen, live match shell, game-over result screen, responsive deep-ocean/off-white styling, and a revised gravity-style piece drop.
 Automated verification for the current UI pass: GitHub Actions passed 14/14 tests and the production build.
 Manual device gameplay remains the final unverified item; the connected desktop is available, but the project is not currently present as a local checkout there, so no manual browser interaction was claimed.
 Next priority: **manual gameplay review, then final launch review.**
 
 ## 22. Change Log
-\n### 2026-09-28 — UI polish pass 4
+\n### 2026-09-28 — Premium game-flow pass
+- Added a dedicated home screen with match branding, AI difficulty selection, start-match CTA, rules drawer, and a board preview.
+- Added explicit screen flow: Home → Match → Game Over, with Rematch and Main Menu actions.
+- Reworked the live match header into compact game chrome with menu, difficulty, restart, turn state, player cards, and match stats.
+- Added a polished result overlay for victory, defeat, and draw states.
+- Reworked disc animation into a longer gravity-style trajectory with entry blur, acceleration feel, micro-overshoot, and settle bounce.
+- Reduced the chance that the board feels like a dashboard by making the game itself the visual hierarchy.
+- Kept the existing minimax/alpha-beta engine and accessibility interaction path unchanged.
+- Visual direction was informed by current Connect Four/game UI references emphasizing mode selection, explicit drop controls, active turn states, and result/rematch flows. 
+
+### 2026-09-28 — UI polish pass 4
 - Reduced the desktop arena/board scale so the complete 7×6 board is visible more reliably on standard laptop-height screens.
 - Slowed the piece-drop animation from 430ms to 650ms for clearer move feedback.
 - Added a short 140ms AI response delay so the AI turn is visually distinct instead of appearing instantaneous.
