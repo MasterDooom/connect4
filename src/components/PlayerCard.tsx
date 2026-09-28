@@ -36,9 +36,9 @@ export function PlayerCard({
 
       <div className="player-card-bottom">
         {human ? (
-          <span>GREEN DISC</span>
+          <span>OCEAN DISC</span>
         ) : (
-          <span>CYAN DISC · DEPTH {difficulty}</span>
+          <span>PEARL DISC · DEPTH {difficulty}</span>
         )}
         <span className={'player-live-dot ' + (active ? 'live' : '')} aria-hidden="true" />
       </div>
