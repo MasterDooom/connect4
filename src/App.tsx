@@ -38,6 +38,11 @@ function App() {
           </label>
         </div>
 
+        <div className="player-legend" aria-label="Piece legend">
+          <span><i className="legend-piece legend-human" aria-hidden="true" />You</span>
+          <span><i className="legend-piece legend-ai" aria-hidden="true" />AI</span>
+        </div>
+
         <div className="column-controls" aria-label="Choose a column">
           {Array.from({ length: 7 }, (_, column) => (
             <button
